@@ -58,15 +58,16 @@ export default function DetailLink({route, navigation}) {
                   marginHorizontal: 20,
                   padding: 5,
                   backgroundColor: 'black',
-                  justifyContent: 'space-around',
                   paddingHorizontal: 40,
+                  paddingLeft: 50,
                   alignItems: 'center',
+                  height: 70
                 }}>
                 <Image
                   source={{uri: url + '/uploads/' + l.image}}
                   style={{width: 50, height: 50, borderRadius: 50}}
                 />
-                <Text style={{color: 'white'}}>{l.title}</Text>
+                <Text style={{color: 'white', marginLeft: 20}}>{l.title}</Text>
               </View>
             );
           })}

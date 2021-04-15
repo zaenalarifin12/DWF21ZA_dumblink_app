@@ -81,7 +81,7 @@ function MyAccount({navigation}) {
           onChangeText={setPassword}
           value={password}
           secureTextEntry
-          placeholder="Password (isi jika ingin mengganti)"
+          placeholder="Password"
           style={styles.form}
         />
         <View
