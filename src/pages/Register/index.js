@@ -4,13 +4,16 @@ import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {API, setAuthToken} from '../../config/api';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonRectangle from '../../components/ButtonRectangle';
+import InputTextCustom from '../../components/InputTextCustom';
+
 function Register({navigation}) {
   // initial data
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
       const body = {
         email,
@@ -18,11 +21,11 @@ function Register({navigation}) {
         password,
       };
       console.log(body);
-      const response = await API
-        .post(`/register`, body)
+      const response = await API.post(`/register`, body)
         .then(async success => {
+          console.log(success);
           await AsyncStorage.setItem('token', success.data.data.user.token);
-          setAuthToken(success.data.data.user.token)
+          setAuthToken(success.data.data.user.token);
           navigation.navigate('MainApp');
         })
         .catch(err => {
@@ -37,31 +40,31 @@ function Register({navigation}) {
     <>
       <View style={styles.container}>
         <View style={styles.header}>
+          <Image
+            source={require('../../assets/icons/logo.png')}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
           <Text style={styles.title}>Register</Text>
         </View>
         <View style={styles.body}>
-          <TextInput
-            onChangeText={setName}
-            value={name}
-            placeholder="Name"
-            style={styles.form}
-          />
-          <TextInput
+          <InputTextCustom onChangeText={setName} value={name} name={'Name'} />
+          <InputTextCustom
             onChangeText={setEmail}
             value={email}
-            placeholder="Email"
-            style={styles.form}
+            name={'Email'}
           />
-          <TextInput
+          <InputTextCustom
             onChangeText={setPassword}
             value={password}
-            secureTextEntry
-            placeholder="Password"
-            style={styles.form}
+            name={'Password'}
+            type={'password'}
           />
-          <TouchableOpacity onPress={handleLogin}>
-            <Text style={styles.button}>Register</Text>
-          </TouchableOpacity>
+
+          <ButtonRectangle
+            title={'Register'}
+            onPress={() => handleRegister()}
+          />
           <View
             style={{
               flexDirection: 'row',
@@ -83,52 +86,44 @@ export default Register;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFF',
-    paddingTop: 124,
-    paddingHorizontal: 20,
   },
   header: {
-    paddingBottom: 24,
-    flexDirection: 'row',
+    paddingTop: 84,
+    paddingBottom: 20,
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#FFFF',
+    borderBottomEndRadius: 55,
+    borderBottomStartRadius: 55,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+
+    elevation: 9,
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
   },
 
   body: {
     flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
   },
-  form: {
-    width: '100%',
-    backgroundColor: '#E5E5E5',
-    color: 'black',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    fontSize: 20,
-    marginVertical: 10,
-    height: 50,
-    borderRadius: 5,
-    borderColor: 'black',
-  },
-  button: {
-    fontSize: 18,
-    marginVertical: 10,
-    width: '100%',
-    backgroundColor: '#FF9F00',
-    paddingHorizontal: 10,
-    paddingVertical: 13,
-    color: '#FFFF',
-    fontWeight: 'bold',
-    textAlign: 'center',
-    borderRadius: 5,
-  },
+
   link: {
     fontSize: 18,
   },
   textLink: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  logoImage: {
+    width: 120,
   },
 });

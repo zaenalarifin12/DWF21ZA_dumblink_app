@@ -1,34 +1,71 @@
-import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native-gesture-handler";
+import React, {useState} from 'react';
+import {StyleSheet, Text, View, Image} from 'react-native';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
+import {API, setAuthToken} from '../../config/api';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import ButtonRectangle from '../../components/ButtonRectangle';
+import InputTextCustom from '../../components/InputTextCustom';
 
-function Login({ navigation }) {
+function Login({navigation}) {
+  // initial data
+  const [email, setEmail] = useState('');
 
-  // const [form, setForm] = useState({
-  //   email: "",
-  //   password: ""
-  // })
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    try {
+      const body = {
+        email,
+        password,
+      };
+
+      const response = await API.post(`/login`, body)
+        .then(async success => {
+          await AsyncStorage.setItem('token', success.data.data.user.token);
+          setAuthToken(success.data.data.user.token);
+          navigation.navigate('MainApp');
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <View style={styles.container}>
         <View style={styles.header}>
+          <Image
+            source={require('../../assets/icons/logo.png')}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
           <Text style={styles.title}>Login</Text>
         </View>
         <View style={styles.body}>
-          <TextInput placeholder="Email" style={styles.form} />
-          <TextInput placeholder="Password" style={styles.form} />
-          <TouchableOpacity onPress={() => navigation.navigate("MainApp")}>
-            <Text style={styles.button}>Login</Text>
-          </TouchableOpacity>
+          <InputTextCustom
+            onChangeText={setEmail}
+            value={email}
+            name={'Email'}
+          />
+          <InputTextCustom
+            onChangeText={setPassword}
+            value={password}
+            name={'Password'}
+            type="password"
+          />
+
+          <ButtonRectangle title={'Login'} onPress={() => handleLogin} />
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Text style={styles.link}>Don't have an account ? Klik </Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Text style={styles.link}>Dont have account ? Klik </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text style={styles.textLink}>Here</Text>
             </TouchableOpacity>
           </View>
@@ -43,52 +80,44 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFF",
-    paddingTop: 124,
-    paddingHorizontal: 20,
   },
   header: {
-    paddingBottom: 24,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    paddingTop: 84,
+    paddingBottom: 20,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#FFFF',
+    borderBottomEndRadius: 55,
+    borderBottomStartRadius: 55,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.32,
+    shadowRadius: 5.46,
+
+    elevation: 9,
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
   },
 
   body: {
     flex: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
   },
-  form: {
-    width: "100%",
-    backgroundColor: "#E5E5E5",
-    color: "black",
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    fontSize: 20,
-    marginVertical: 10,
-    height: 50,
-    borderRadius: 5,
-    borderColor: "black",
-  },
-  button: {
-    fontSize: 18,
-    marginVertical: 10,
-    width: "100%",
-    backgroundColor: "#FF9F00",
-    paddingHorizontal: 10,
-    paddingVertical: 13,
-    color: "#FFFF",
-    fontWeight: "bold",
-    textAlign: "center",
-    borderRadius: 5,
-  },
+
   link: {
     fontSize: 18,
   },
   textLink: {
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: 'bold',
+  },
+  logoImage: {
+    width: 120,
   },
 });

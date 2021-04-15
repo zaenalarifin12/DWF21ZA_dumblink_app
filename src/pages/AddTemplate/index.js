@@ -10,6 +10,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import axios from 'axios';
 import {API} from '../../config/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Body from '../../components/Body';
 
 function AddTemplate({route, navigation}) {
   const {id} = route.params;
@@ -243,14 +244,16 @@ function AddTemplate({route, navigation}) {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={styles.button}>Back</Text>
-        </TouchableOpacity>
-        <Text>Add Template</Text>
-      </View>
-      <View style={styles.body}>
+    <Body title="AddLink"
+    titleMenu="back" onPress={() => navigation.goBack()}>
+      <View
+        style={{
+          backgroundColor: 'white',
+          borderTopStartRadius: 25,
+          borderTopEndRadius: 25,
+          paddingTop: 20,
+          paddingHorizontal: 20,
+        }}>
         <ScrollView>
           <View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -302,25 +305,14 @@ function AddTemplate({route, navigation}) {
           </View>
         </ScrollView>
       </View>
-    </View>
+    </Body>
   );
 }
 
 export default AddTemplate;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    paddingHorizontal: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  body: {
-    paddingTop: 10,
-  },
+  
   image: {
     width: '100%',
   },

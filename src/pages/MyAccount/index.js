@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {TouchableOpacity, TextInput} from 'react-native-gesture-handler';
+import Body from '../../components/Body';
 import {API} from '../../config/api';
 
 function MyAccount({navigation}) {
@@ -61,13 +62,7 @@ function MyAccount({navigation}) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Text style={styles.buttonBack}>Back</Text>
-        </TouchableOpacity>
-        <Text>My Account</Text>
-      </View>
+    <Body title="MyAccount" onPress={() => navigation.toggleDrawer()}>
       <View style={styles.body}>
         <TextInput
           value={name}
@@ -102,24 +97,20 @@ function MyAccount({navigation}) {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </Body>
   );
 }
 
 export default MyAccount;
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
     paddingTop: 20,
     paddingHorizontal: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  body: {
-    paddingTop: 10,
+    backgroundColor: 'white',
+    borderTopStartRadius: 25,
+    borderTopEndRadius: 25
   },
   form: {
     width: '100%',

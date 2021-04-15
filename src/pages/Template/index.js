@@ -1,21 +1,17 @@
 import React from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
+import {withTheme} from 'react-native-elements';
 import {TouchableOpacity, ScrollView} from 'react-native-gesture-handler';
 import Phone1 from '../../assets/images/phone1.png';
 import Phone2 from '../../assets/images/phone2.png';
 import Phone3 from '../../assets/images/phone3.png';
 import Phone4 from '../../assets/images/phone4.png';
+import Body from '../../components/Body';
 
 function Template({navigation}) {
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Text>Menu</Text>
-        </TouchableOpacity>
-        <Text>Template</Text>
-      </View>
-      <View style={styles.body}>
+    <Body title="Template" onPress={() => navigation.toggleDrawer()}>
+      <View style={{backgroundColor: '#FF9F00'}}>
         <ScrollView>
           <TouchableOpacity
             onPress={() => navigation.navigate('AddTemplate', {id: 1})}>
@@ -35,25 +31,15 @@ function Template({navigation}) {
           </TouchableOpacity>
         </ScrollView>
       </View>
-    </View>
+    </Body>
   );
 }
 
 export default Template;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    paddingHorizontal: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  body: {
-    paddingTop: 10,
-  },
   image: {
     width: '100%',
+    height: 400,
+    marginVertical: 40,
   },
 });

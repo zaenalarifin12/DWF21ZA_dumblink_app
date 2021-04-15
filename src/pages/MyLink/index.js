@@ -6,6 +6,7 @@ import ViewIcon from '../../assets/icons/View.png';
 import EditIcon from '../../assets/icons/Edit.png';
 import DeleteIcon from '../../assets/icons/Delete.png';
 import {API, url} from '../../config/api';
+import Body from '../../components/Body';
 
 function MyLink({navigation}) {
   const [links, setLinks] = useState(null);
@@ -37,13 +38,7 @@ function MyLink({navigation}) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
-          <Text>Menu</Text>
-        </TouchableOpacity>
-        <Text>My Link</Text>
-      </View>
+    <Body title="MyLink" onPress={() => navigation.toggleDrawer()}>
       <View style={styles.body}>
         <ScrollView>
           {links != null ? (
@@ -51,30 +46,36 @@ function MyLink({navigation}) {
               return (
                 <View
                   style={{
-                    flexDirection: 'row',
+                    flexDirection: 'column',
                     justifyContent: 'space-between',
                     alignItems: 'center',
+                    backgroundColor: 'white',
+                    marginHorizontal: 30,
+                    borderRadius: 25,
                   }}>
                   <Image
                     style={{
-                      width: 100,
-                      height: 100,
+                      margin: 10,
+                      width: '100%',
+                      height: 200,
+                      borderRadius: 20
                     }}
                     source={{uri: link.image}}
                     resizeMode="contain"
                   />
                   <View>
-                    <Text>{link.title}</Text>
+                    <Text style={{textAlign: 'center'}}>{link.title}</Text>
                     <Text
                       style={{
                         color: '#7E7A7A',
+                        textAlign: 'center',
                         flexWrap: 'wrap',
-                        maxWidth: 100,
                       }}>{`${url}/${link.uniqueLink}`}</Text>
                   </View>
 
                   <View
                     style={{
+                      width: "50%",
                       flexDirection: 'row',
                       justifyContent: 'space-between',
                       alignItems: 'center',
@@ -115,22 +116,14 @@ function MyLink({navigation}) {
           )}
         </ScrollView>
       </View>
-    </View>
+    </Body>
   );
 }
 
 export default MyLink;
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 20,
-    paddingHorizontal: 20,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   body: {
+    paddingHorizontal: 20,
     paddingTop: 10,
     justifyContent: 'space-between',
   },

@@ -44,7 +44,8 @@ function Router() {
   return loading ? (
     <ActivityIndicator />
   ) : (
-    <Stack.Navigator initialRouteName={checkToken ? 'MainApp' : 'Home'}>
+    // <Stack.Navigator initialRouteName={checkToken ? 'MainApp' : 'Home'}></Stack.Navigator>
+    <Stack.Navigator initialRouteName="MainApp">
       <Stack.Screen
         name="Home"
         component={Home}
